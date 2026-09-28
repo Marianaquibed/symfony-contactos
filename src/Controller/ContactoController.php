@@ -16,53 +16,32 @@ final class ContactoController extends AbstractController
 public function ficha(ManagerRegistry $doctrine, int $codigo = 1): Response
 
 {
+
     // La primera instrucción suele ser esta, ya que cogemos el repositorio de la entidad asociada
+
     $repositorio = $doctrine->getRepository(Contacto::class);
 
     // Ahora usamos uno de los métodos del repositorio
+
     $contacto = $repositorio->find($codigo);
 
-    return $this->render('ficha_contacto.html.twig', [
-        'contacto' => $contacto,
-    ]);
-}
+    // Y creamos la vista HTML
 
-#[Route('/contacto/nuevo/{nombre}/{telefono}/{email}', name: 'nuevo-con-datos')]
-public function nuevoConDatos(
-    ManagerRegistry $doctrine,
-    string $nombre, 
-    string $telefono, 
-    string $email)
-    {
-        $contacto = new Contacto();
-        
-        $contacto->setNombre($nombre);
-        $contacto->setTelefono($telefono);
-        $contacto->setEmail($email);
+    $html = "
 
-        $entityManager = $doctrine->getManager();
-        $entityManager->persist($contacto);
-        $entityManager->flush();
+    <h1>Detalle del contacto</h1>
 
-        return $this->redirectToRoute('contacto', ['codigo' => $contacto->getId()]);
-    }
-    public function modificar(ManagerRegistry $doctrine,int $codigo, string $nombre_nuevo)
-    {
-        $contacto = $doctrine->getRepository(Contacto::class)->find($codigo);
-        if($contacto){
-            $contacto->setNombre($nombre_nuevo);
-            $entityManager = $doctrine->getManager();
-            try {
-                $entityManager->persist($contacto);
-                $entityManager->flush();
+    <p>Nombre: " . $contacto->getNombre() . "</p>
 
-            return $this->redirectToRoute('contacto', ['codigo' => $contacto->getId()]);
-            }catch (\Exception $e) {
-            error_log("Error insertando objeto " . $e->getMessage());
-            return new Response("Error insertando objeto " . $e->getMessage());
-            }
-        }
-    return $this->render('contacto', ["codigo" => null]);
+    <p>Teléfono: " . $contacto->getTelefono() . "</p>
+
+    <p>Email: " . $contacto->getEmail() . "</p>
+
+    ";
+
+    // Devolvemos como respuesta el html
+
+    return new Response($html);
     }
 }
-    
+

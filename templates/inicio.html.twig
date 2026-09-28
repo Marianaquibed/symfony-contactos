@@ -1,17 +1,17 @@
-{% extends 'base.html.twig' %}
+<!doctype html>
 
-{% block body %}
+<html>
 
-<h1>Contactos</h1>
+<meta charset="utf-8">
 
-<h2>Bienvenido a la web de contactos.</h2>
+<body>
 
-<p>Página de inicio</p>
+    <h1>Contactos</h1>
 
-{% for contacto in contactos %}
+    <h2>Bienvenido a la web de contactos.</h2>
 
-{{ include ('partials/_contacto.html.twig', {'contacto': contacto})}}
+    <p>Página de inicio</p>
 
-{% endfor %}
+</body>
 
-{% endblock %}
+</html>
