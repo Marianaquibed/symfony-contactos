@@ -2,11 +2,13 @@
 {% block title %}Ficha del contacto
 {% endblock %}
 {% block body %}
-
 {%if contacto%}
 <h1>Ficha del contacto </h1>
 {{ include('partials/_contacto.html.twig', {'contacto': contacto})}}
 {%else%}
 <p>No se ha encontrado el contacto</p>
 {%endif%}
+<a href="{{ path('inicio') }}" class="btn btn-primary">
+    <button class="btn btn-primary" type="button">Volver a Inicio</button>
+</a>
 {% endblock %}

@@ -6,8 +6,36 @@
 
 <h2>Bienvenido a la web de contactos.</h2>
 
-<p>Página de inicio</p>
+<p><strong>Página de inicio</strong></p>
+
+{%if is_granted('IS_AUTHENTICATED_FULLY')%}
+<p><strong>Logueado como {{app.user.name}}</strong></p>
+{%else%}
+
+<p><strong>No logueado</strong></p>
+
+{%endif%}
+<a href="{{ path('app_login') }}">
+    <button class="btn btn-primary" type="button">Login</button>
+</a>
+<a href="{{ path('app_logout') }}">
+    <button class="btn btn-primary" type="button">Logout</button>
+</a>
+
+<a href="{{ path('app_register') }}">
+    <button class="btn btn-primary" type="button">Register</button>
+</a>
+<a href="{{ path('nuevo') }}">
+    <button class="btn btn-primary" type="button">Añadir Contacto Nuevo</button>
+</a>
 {%for contacto in contactos%}
 {{include('partials/_contacto.html.twig',{'contacto':contacto})}}
+<a href="{{ path('editar', {codigo: contacto.id}) }}">
+    <button class="btn btn-primary" type="button">Editar</button>
+</a>
+<a href="{{ path('borrar', {codigo: contacto.id}) }}"
+    onclick="return confirm('¿Estás seguro de que deseas borrar este contacto?');">
+    <button class="btn btn-primary" type="button" style="background-color: red; border-color: red;">Borrar</button>
+</a>
 {%endfor%}
 {% endblock %}

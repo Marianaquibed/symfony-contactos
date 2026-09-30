@@ -10,7 +10,7 @@ use App\Entity\Contacto;
 
 final class PageController extends AbstractController
 {
-    #[Route('/', name: 'app_page')]
+    #[Route('/', name: 'inicio')]
     public function inicio(ManagerRegistry $doctrine): Response
     {
        $repositorio = $doctrine->getRepository(Contacto::class);
