@@ -98,6 +98,8 @@ final class ContactoController extends AbstractController
 
    public function editar(ManagerRegistry $doctrine, Request $request, int $codigo)
    {
+    $this->denyAccessUnlessGranted('ROLE_USER');
+
        $repositorio = $doctrine->getRepository(Contacto::class);
        //En este caso, los datos los obtenemos del repositorio de contactos
        $contacto = $repositorio->find($codigo);
@@ -127,4 +129,18 @@ final class ContactoController extends AbstractController
            ]);
        }
    }
+   #[Route('/contacto/borrar/{codigo}', name: 'borrar', requirements: ['codigo' => '\d+'])]
+    public function borrar(ManagerRegistry $doctrine, int $codigo): Response
+    {
+        $repositorio = $doctrine->getRepository(Contacto::class);
+        $contacto = $repositorio->find($codigo);
+
+        if ($contacto) {
+            $entityManager = $doctrine->getManager();
+            $entityManager->remove($contacto);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('inicio');
+        }
+    }
 }
